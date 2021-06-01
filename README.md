@@ -19,8 +19,11 @@ julia> include("main1.jl")
 
 ### Folders description
  1. randqp - this is were random QP instances are stored. Problems are provided as .mat Matlab&reg; files
- 2. Form_select - this is were the codes are stored
+ 2. codes - this is were the codes are stored
+ 3. test - this is were scripts to reproduce the results of the paper are stored
 
+# Publication
+G.Liuzzi, M.Locatelli, V.Piccialli "A computational study on QP problems with general linear constraints". Submitted to Optimization Letters (2021)
 
 ##### AUTORI: G. Liuzzi<sup>1</sup>, M. Locatelli<sup>2</sup>, V. Piccialli<sup>3</sup>
 
