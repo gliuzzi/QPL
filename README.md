@@ -11,6 +11,6 @@
 
 ### Folders description
 1. randqp - this is were random QP instances are stored. Problems are provided as .mat Matlab files
- 
+2. Form_select - this is were the codes are stored 
 
 Copyright 2021
