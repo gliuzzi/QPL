@@ -1,5 +1,5 @@
 # QPL
- Repository of the B&B algorithm to solve  Nonconvex Quadratic problems with general linear constraints. N.B. the codes uses the external solvers <b>CPLEX</b>, <b>Gurobi</b> and <b>Ipopt</b>. The code has been tested with the following versions of the above codes:
+ Repository of the B&B algorithm to solve  Nonconvex Quadratic problems with general linear constraints. N.B. the codes uses the external solvers <b>CPLEX</b>, <b>Gurobi</b> and <b>Ipopt</b>. The code has been tested with the following versions of the above solvers:
  - CPLEX v. 12.10
  - Gurobi v. 9.1.1
  - Ipopt v. 0.6.4
@@ -16,6 +16,24 @@ $ julia -p <nproc> main.jl
 ```
 julia> include("main1.jl")
 ```
+
+Codes have been developed and run on a Julia environment with the following packages installed:
+```
+julia> Pkg.status()
+Status `C:\Users\giamp\.julia\environments\v1.5\Project.toml`
+  [a076750e] CPLEX v0.7.3
+  [0a46da34] CSDP v0.7.0
+  [336ed68f] CSV v0.8.2
+  [9961bab8] Cbc v0.7.1
+  [a93c6f00] DataFrames v0.22.2
+  [60bf3e95] GLPK v0.14.3
+  [2e9cd046] Gurobi v0.8.0
+  [b6b21f68] Ipopt v0.6.4
+  [4076af6c] JuMP v0.21.5
+  [e5e0dc1b] Juno v0.8.4
+  [23992714] MAT v0.9.2
+```
+
 
 ### Folders description
  1. randqp - this is were random QP instances are stored. Problems are provided as .mat Matlab&reg; files
