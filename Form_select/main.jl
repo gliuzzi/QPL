@@ -6,11 +6,11 @@ using Distributed
 
 using mod_run
 
-nloc       = 10
-MAXNODES   = Inf
-TOLGAP     = 1.e-5
-time_limit = 1800
-probfile   = "qp20_10_1_2.mat"
+nloc       = 10					# number of local searches to determine first GUB
+MAXNODES   = Inf				# maximum number of nodes to be explored
+TOLGAP     = 1.e-5				# tolerance for node fathoming and stop
+time_limit = 1800				# time limit
+probfile   = "qp20_10_1_2.mat"  # problem file in folder ../randqp
 
 run_instance(probfile, nloc, MAXNODES, TOLGAP, time_limit)
 
