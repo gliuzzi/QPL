@@ -6,17 +6,6 @@
 
 Hence, prior of using the code you must install these solvers along with their respective Julia interfaces.
 
-### How to run the code
-All the codes must be run from within folder ```codes```. There are basically two ways of running the codes.
-1. edit file main.jl to suit your needs. Then, from a command prompt execute
-```
-$ julia -p <nproc> main.jl
-```
-2. edit file main1.jl to suit your needs. Then, from a julia REPL execute
-```
-julia> include("main1.jl")
-```
-
 Codes have been developed and run on a Julia environment with the following packages installed:
 ```
 julia> Pkg.status()
@@ -34,6 +23,16 @@ Status `C:\Users\giamp\.julia\environments\v1.5\Project.toml`
   [23992714] MAT v0.9.2
 ```
 
+### How to run the code
+All the codes must be run from within folder ```codes```. There are basically two ways of running the codes.
+1. edit file main.jl to suit your needs. Then, from a command prompt execute
+```
+$ julia -p <nproc> main.jl
+```
+2. edit file main1.jl to suit your needs. Then, from a julia REPL execute
+```
+julia> include("main1.jl")
+```
 
 ### Folders description
  1. randqp - this is were random QP instances are stored. Problems are provided as .mat Matlab&reg; files
