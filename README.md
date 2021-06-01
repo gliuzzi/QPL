@@ -7,7 +7,7 @@
 Hence, prior of using the code you must install these solvers along with their respective Julia interfaces.
 
 ### How to run the code
-There are basically two ways of running the codes.
+All the codes must be run from within folder ```codes```. There are basically two ways of running the codes.
 1. edit file main.jl to suit your needs. Then, from a command prompt execute
 ```
 $ julia -p <nproc> main.jl
