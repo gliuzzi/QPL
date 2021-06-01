@@ -10,9 +10,9 @@ Hence, prior of using the code you must install these solvers along with their r
 There are basically two ways of running the codes.
 1. edit file main.jl to suit your needs. Then, from a command prompt execute
 ```
-julia -p <nproc> main.jl
+$ julia -p <nproc> main.jl
 ```
-2. edit file main1.jl to suit your needs. then, from a julia REPL execute
+2. edit file main1.jl to suit your needs. Then, from a julia REPL execute
 ```
 julia> include("main1.jl")
 ```
