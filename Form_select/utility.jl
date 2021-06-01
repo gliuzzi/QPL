@@ -6,7 +6,7 @@ module utility
 
 	export read_problem
 	export decompose_Q
-	
+
 	function decompose_Q(Q)
 		n,nn = size(Q)
 		#F = eigen(Q + 1.e-9*diagm(ones(n)))
@@ -38,19 +38,19 @@ module utility
 			Qpos = Array{Float64,2}(undef,0,0)
 		end
 		#print(Qpos[1,:])
-		for i in 1:n
-			println("LAMBDA[",i,"] = ",LAMBDA[i])
-		end
+		#for i in 1:n
+		#	println("LAMBDA[",i,"] = ",LAMBDA[i])
+		#end
 		#println("lambda=",LAMBDA)
-		println("firstnneg=",firstnneg)
-		println(LAMBDA[firstnneg])
-		println(minimum(abs.(Qpos))," ",maximum(Qpos))
-		println("eig=",eigen(Qpos).values)
+		#println("firstnneg=",firstnneg)
+		#println(LAMBDA[firstnneg])
+		#println(minimum(abs.(Qpos))," ",maximum(Qpos))
+		#println("eig=",eigen(Qpos).values)
 		#readline()
 		num_nneg = n - firstnneg + 1
 		return Qpos,LAMBDA[1:firstnneg-1],U[:,1:firstnneg-1],num_nneg
 	end
-	
+
 	function read_problem(probfile::String)
 		###########################
 		#    define:              #
@@ -123,8 +123,8 @@ module utility
 			# ctilde = ctilde + minimo
 
 			xtest = rand(n,1)
-			println("prova 1:",0.5*xtest'*Qtilde*xtest + ctilde'*xtest + const_)
-			println("prova 2:",0.5*(LB + xtest.*(UB-LB))'*Qinit*(LB+xtest.*(UB-LB)) + cinit'*xtest )
+			#println("prova 1:",0.5*xtest'*Qtilde*xtest + ctilde'*xtest + const_)
+			#println("prova 2:",0.5*(LB + xtest.*(UB-LB))'*Qinit*(LB+xtest.*(UB-LB)) + cinit'*xtest )
 			################ PREPROCESS INPUT DATA END  #########
 
 			Atilde = A*LAMBDA
