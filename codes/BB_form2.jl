@@ -39,9 +39,8 @@ module BB_form2
 	export elem_bb_2
 	export insert!, extract!, sort!
 
-	export POLICY_VALUES, WHENLB_VALUES, BRANCH_VALUES
+	export WHENLB_VALUES, BRANCH_VALUES
 
-	POLICY_VALUES = Any[:lifo, :sort]
 	WHENLB_VALUES = Any[:before, :after]
 	BRANCH_VALUES = Any[:binary, :nary]
 
@@ -169,7 +168,6 @@ module BB_form2
 		numlp::Int64			# number of LP's solved
 		nummilp::Int64			# number of MILP's solved
 		branch::Symbol			# kind of branch strategy. Values are {:binary, :nary}
-		policy::Symbol			# how the queue is managed. Values are {:lifo, :sort}
 		whenlb::Symbol			# when LB of node is computed, i.e. before or after node subdivision.
 								# Possible values are {:before, :after}
 		#####################################################
@@ -196,7 +194,6 @@ module BB_form2
 			instance.GLB = -Inf
 			instance.xUB = Array{Float64}(undef,0)
 			instance.GAP = +Inf
-			instance.policy = :lifo
 			instance.whenlb = :after
 			instance.branch = :binary
 			instance.numlp  = 0
@@ -225,11 +222,7 @@ module BB_form2
 	function extract!(prob::BB_2)
 		if(prob.nnodes > 0)
 			prob.nnodes -= 1
-			if((prob.policy == :lifo) || (prob.policy == :sort))
-				return pop!(prob.open_probs)
-			else
-				return shift!(prob.open_probs)
-			end
+			return pop!(prob.open_probs)
 		else
 			println("BB.extract!: WARNING: prob structure is EMPTY")
 			return false

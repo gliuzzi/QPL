@@ -44,7 +44,6 @@ module utility_form2
 					 time_limit)
 		iprint = 0
 
-		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
 		######################################################
@@ -63,23 +62,16 @@ module utility_form2
 		prob         = BB_form2.BB_2()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.policy  = policy
 		prob.branch  = branch
 
-		if !(prob.policy in BB_form2.POLICY_VALUES)
-			error("ERROR!: possible values for policy are ",transpose(BB_form2.POLICY_VALUES),"\n")
-		end
 		if !(prob.whenlb in BB_form2.WHENLB_VALUES)
 			error("ERROR!: possible values for whenlb are ",transpose(BB_form2.WHENLB_VALUES),"\n")
 		end
 		if !(prob.branch in BB_form2.BRANCH_VALUES)
 			error("ERROR!: possible values for branch are ",transpose(BB_form2.BRANCH_VALUES),"\n")
 		end
-		if(policy == :sort)
-			prob.whenlb = :after
-		else
-			prob.whenlb = :before
-		end
+
+		prob.whenlb = :after
 
 		LB   = DATA["LB"]
 		UB   = DATA["UB"]
@@ -249,9 +241,8 @@ module utility_form2
 			push!(LBs,e.LB)
 			prob.nnodes += 1
 
-			if(prob.policy == :sort)
-				(BB_form2.sort!)(prob,(>))
-			end
+			(BB_form2.sort!)(prob,(>))
+
 			prob.GLB = minimum(LBs)
 			prob.GAP = (prob.GUB - prob.GLB)/max(1.0,abs(prob.GUB))
 
@@ -315,7 +306,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
@@ -445,9 +435,7 @@ module utility_form2
 						flush(fid_GUB)
 						flush(fid_bab)
 
-						if(prob.policy == :sort)
-							(BB_form2.sort!)(prob,(>))
-						end
+						(BB_form2.sort!)(prob,(>))
 
 						child = 0
 						#gc()
@@ -487,17 +475,12 @@ module utility_form2
 		#####################################################
 		# instantiate the Branch & Bound object and define:
 		#	management of lp's at B&B nodes
-		# 	policy for management of list of open problems;
+		# 	always select open prob. with best LB
 		#	when the LB for an open problem is computed.
-		#	policy can take values in {:lifo, :fifo, :sort}
 		#	whenlb can take values in {:before, :after}
 		#####################################################
-		# policy   : defines how the queue is managed. Allowed values are {:lifo, :sort}
-		#	     :sort means best-bound visit of B&B tree
-		#  		     :lifo means depth-first visit of B&B tree
 		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
 		#####################################################
-		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
 		######################################################
@@ -516,23 +499,15 @@ module utility_form2
 		prob         = BB_form2.BB_2()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.policy  = policy
 		prob.branch  = branch
 
-		if !(prob.policy in BB_form2.POLICY_VALUES)
-			error("ERROR!: possible values for policy are ",transpose(BB_form2.POLICY_VALUES),"\n")
-		end
 		if !(prob.whenlb in BB_form2.WHENLB_VALUES)
 			error("ERROR!: possible values for whenlb are ",transpose(BB_form2.WHENLB_VALUES),"\n")
 		end
 		if !(prob.branch in BB_form2.BRANCH_VALUES)
 			error("ERROR!: possible values for branch are ",transpose(BB_form2.BRANCH_VALUES),"\n")
 		end
-		if(policy == :sort)
-			prob.whenlb = :after
-		else
-			prob.whenlb = :before
-		end
+		prob.whenlb = :after
 
 		################ INPUT DATA   #######################
 		#####################################################
@@ -599,7 +574,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
@@ -719,9 +693,8 @@ module utility_form2
 			push!(LBs,e.LB)
 			prob.nnodes += 1
 
-			if(prob.policy == :sort)
-				(BB_form2.sort!)(prob,(>))
-			end
+			(BB_form2.sort!)(prob,(>))
+
 			prob.GLB = minimum(LBs)
 			prob.GAP = (prob.GUB - prob.GLB)/max(1.0,abs(prob.GUB))
 
@@ -846,9 +819,7 @@ module utility_form2
 						flush(fid_GUB)
 						flush(fid_bab)
 
-						if(prob.policy == :sort)
-							(BB_form2.sort!)(prob,(>))
-						end
+						(BB_form2.sort!)(prob,(>))
 
 						child = 0
 						#gc()
