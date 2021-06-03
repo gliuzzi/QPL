@@ -64,14 +64,9 @@ module utility_form2
 
 		prob.branch  = branch
 
-		if !(prob.whenlb in BB_form2.WHENLB_VALUES)
-			error("ERROR!: possible values for whenlb are ",transpose(BB_form2.WHENLB_VALUES),"\n")
-		end
 		if !(prob.branch in BB_form2.BRANCH_VALUES)
 			error("ERROR!: possible values for branch are ",transpose(BB_form2.BRANCH_VALUES),"\n")
 		end
-
-		prob.whenlb = :after
 
 		LB   = DATA["LB"]
 		UB   = DATA["UB"]
@@ -306,7 +301,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
 		begin
@@ -476,8 +470,7 @@ module utility_form2
 		# instantiate the Branch & Bound object and define:
 		#	management of lp's at B&B nodes
 		# 	always select open prob. with best LB
-		#	when the LB for an open problem is computed.
-		#	whenlb can take values in {:before, :after}
+		#	compute LB after branching
 		#####################################################
 		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
 		#####################################################
@@ -501,13 +494,9 @@ module utility_form2
 
 		prob.branch  = branch
 
-		if !(prob.whenlb in BB_form2.WHENLB_VALUES)
-			error("ERROR!: possible values for whenlb are ",transpose(BB_form2.WHENLB_VALUES),"\n")
-		end
 		if !(prob.branch in BB_form2.BRANCH_VALUES)
 			error("ERROR!: possible values for branch are ",transpose(BB_form2.BRANCH_VALUES),"\n")
 		end
-		prob.whenlb = :after
 
 		################ INPUT DATA   #######################
 		#####################################################
@@ -574,7 +563,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
 		begin
