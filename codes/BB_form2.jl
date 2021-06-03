@@ -39,10 +39,6 @@ module BB_form2
 	export elem_bb_2
 	export insert!, extract!, sort!
 
-	export BRANCH_VALUES
-
-	BRANCH_VALUES = Any[:binary, :nary]
-
 	#####################################################
 	# an object of type "elem_bb_2" is a container defined by
 	#	LB = a  lower bound
@@ -166,7 +162,6 @@ module BB_form2
 		GAP::Float64			# optimality gap
 		numlp::Int64			# number of LP's solved
 		nummilp::Int64			# number of MILP's solved
-		branch::Symbol			# kind of branch strategy. Values are {:binary, :nary}
 		#####################################################
 		# Array of open (sub)problems
 		#####################################################
@@ -191,7 +186,6 @@ module BB_form2
 			instance.GLB = -Inf
 			instance.xUB = Array{Float64}(undef,0)
 			instance.GAP = +Inf
-			instance.branch = :binary
 			instance.numlp  = 0
 			instance.nummilp= 0
 			return instance

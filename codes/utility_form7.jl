@@ -56,12 +56,6 @@ module utility_form7
 		# 	open problems are selected according to best bound;
 		#	compute LB after branching
 		#####################################################
-		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
-		#####################################################
-		######################################################
-		# NOTE: at the moment branch MUST be :binary
-		######################################################
-		branch   = :binary
 
 		if(MAXNODESin <= 0)
 			println("WARNING: passed value for MAXNODES is <= 0, B&B will explore 0 nodes!")
@@ -75,12 +69,6 @@ module utility_form7
 
 		prob         = BB_form7.BB_7()
 		LBs          = Array{Float64}(undef,0)
-
-		prob.branch  = branch
-
-		if !(prob.branch in BB_form7.BRANCH_VALUES)
-			error("ERROR!: possible values for branch are ",transpose(BB_form7.BRANCH_VALUES),"\n")
-		end
 
 		################ INPUT DATA   #######################
 		#####################################################
@@ -161,8 +149,6 @@ module utility_form7
 		fid_GUB = open("GUB_stat.txt","w")
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
-
-		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
 		begin
 
@@ -340,8 +326,6 @@ module utility_form7
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
-
 		begin
 
 			start_time = time()
@@ -500,12 +484,6 @@ module utility_form7
 		#   open problems are selected according to best bound
 		#	compute LB after branching
 		#####################################################
-		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
-		#####################################################
-		######################################################
-		# NOTE: at the moment branch MUST be :binary
-		######################################################
-		branch   = :binary
 
 		if(MAXNODESin <= 0)
 			println("WARNING: passed value for MAXNODES is <= 0, B&B will explore 0 nodes!")
@@ -519,12 +497,6 @@ module utility_form7
 
 		prob         = BB_form7.BB_7()
 		LBs          = Array{Float64}(undef,0)
-
-		prob.branch  = branch
-
-		if !(prob.branch in BB_form7.BRANCH_VALUES)
-			error("ERROR!: possible values for branch are ",transpose(BB_form7.BRANCH_VALUES),"\n")
-		end
 
 		################ INPUT DATA   #######################
 		#####################################################
@@ -607,8 +579,6 @@ module utility_form7
 		fid_GUB = open("GUB_stat.txt","w")
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
-
-		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
 
 		begin
 
@@ -899,7 +869,7 @@ module utility_form7
 			println("WARNING from subdivide: no further branching is possible!!")
 			return Array{elem_bb_7,1}(undef,0)
 		end
-		#NOTE: branch is forcedly binary!
+
 		nT = 2
 		###################################
 		# builds the 2 subproblems
