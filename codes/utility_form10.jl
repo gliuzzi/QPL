@@ -1471,12 +1471,6 @@ module utility_form10
 			e.zmax = upz
 
 			if (feas)
-				#add_MC_cons!(lp,n,p,lowz,upz)
-				#for i in 1:p
-				#	JuMP.delete(lp,lp[:MC][i])
-				#end
-				#delete!(lp.obj_dict,:MC)
-				#@constraint(lp, MC[i=1:p], -lp[:z][i]*(lowz[i]+upz[i]) + lp[:g][i] <= -lowz[i]*upz[i])
 				for i in 1:p
 					@constraint(lp, -lp[:z][i]*(lowz[i]+upz[i]) + lp[:g][i] <= -lowz[i]*upz[i])
 				end
@@ -1573,7 +1567,6 @@ module utility_form10
 			if iprint >= 0
 				@printf("                      lowerb-lowold:%15.8e\n",lowerb-lowold);
 			end
-			#if ((lowerb - lowold) <= max(    tol,0.1*tol*abs(GUB)))
 			if ((lowerb - lowold) <= max(0.5*tol,0.01*(GUB-lowerb)))
 				break
 			end
@@ -1633,11 +1626,7 @@ module utility_form10
 			low = Nothing
 			sol = []
 		end
-		#println(sol)
-		#@objective(lp, Min, sum(prob.c[i]*lp[:x][i] for i=1:n) )
-		#println(lp)
-		#println("paused in CPXcompute_low")
-		#readline()
+
 		return low, sol, flag
 
 	end
@@ -1681,11 +1670,7 @@ module utility_form10
 			low = Nothing
 			sol = []
 		end
-		#println(sol)
-		#@objective(lp, Min, sum(prob.c[i]*lp[:x][i] for i=1:n) )
-		#println(lp)
-		#println("paused in CPXcompute_low")
-		#readline()
+
 		return low, sol, flag
 
 	end
@@ -1720,9 +1705,6 @@ module utility_form10
 			flag = 2
 			mx_i = 0.0
 		else
-			#write_model(lp,string("test_gp.lp"))
-			#print("Hit Return to continue ...")
-			#readline()
 			mx_i = 0.0
 			flag = 3
 		end
@@ -1745,9 +1727,6 @@ module utility_form10
 			flag = 2
 			mx_i = 0.0
 		else
-			#write_model(lp,string("test_gp.lp"))
-			#print("Hit Return to continue ...")
-			#readline()
 			mx_i = 0.0
 			flag = 3
 		end
@@ -1774,10 +1753,6 @@ module utility_form10
 		@constraint(lp, lineq[j=1:m], sum( A[j,i]*x[i] for i=1:n ) <= b[j] )
 		@constraint(lp, leq[j=1:meq], sum( Aeq[j,i]*x[i] for i=1:n ) == beq[j] )
 		@constraint(lp, MC[i=1:p], -z[i]*(lowz[i]+upz[i]) + g[i] <= -lowz[i]*upz[i])
-
-		#print(lp)
-		#println("cpxbuild_model, hit return to continue")
-		#readline()
 
 		return lp
 	end
@@ -1882,11 +1857,6 @@ module utility_form10
 		@constraint(lp, 		  sum(c[i]*x[i] for i=1:n) + 0.5*sum(Dn[i]*g[i] for i=1:p)
 			+ 0.5*sum(x[i]*x[j]*Qpos[i,j] for i=1:n, j=1:n) <= upperboundmod)
 
-
-		#print(lp)
-		#println("cpxbuild_model, hit return to continue")
-		#readline()
-
 		return lp
 	end
 
@@ -1901,9 +1871,6 @@ module utility_form10
 		meq,n = size(Aeq)
 		n = length(c)
 
-		#lp = Model(CPLEX.Optimizer)
-		#set_optimizer_attribute(lp, "CPX_PARAM_SCRIND", CPX_OFF)
-		#set_optimizer_attribute(lp,"CPX_PARAM_BARQCPEPCOMP", 1.e-5)
 		lp = Model(Ipopt.Optimizer)
 		set_optimizer_attribute(lp, "print_level", 0)
 		set_optimizer_attribute(lp, "acceptable_constr_viol_tol", tol)
@@ -1929,10 +1896,6 @@ module utility_form10
 
 		@constraint(lp, 		  sum(c[i]*x[i] for i=1:n) + 0.5*sum(Dn[i]*g[i] for i=1:p)
 			+ 0.5*sum(x[i]*x[j]*Qpos[i,j] for i=1:n, j=1:n) <= upperboundmod)
-
-		#print(lp)
-		#println("cpxbuild_model, hit return to continue")
-		#readline()
 
 		return lp
 	end
