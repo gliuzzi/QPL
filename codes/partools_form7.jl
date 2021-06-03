@@ -1,5 +1,27 @@
 __precompile__()
 
+#!============================================================================================
+#!    QPL - A computational study on QP problems with general linear constraints
+#!    Copyright (C) 2021  G.Liuzzi, M.Locatelli, V.Piccialli
+#!
+#!    This program is free software: you can redistribute it and/or modify
+#!    it under the terms of the GNU General Public License as published by
+#!    the Free Software Foundation, either version 3 of the License, or
+#!    (at your option) any later version.
+#!
+#!    This program is distributed in the hope that it will be useful,
+#!    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#!    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#!    GNU General Public License for more details.
+#!
+#!    You should have received a copy of the GNU General Public License
+#!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#!
+#!    G. Liuzzi, M. Locatelli, V. Piccialli. A computational study on QP problems
+#!    with general linearconstraints. Submitted to Optimization Letters (2021)
+#!
+#!============================================================================================
+
 module partools_form7
 	using Distributed
 	using Gurobi
@@ -10,7 +32,7 @@ module partools_form7
 	export clear_lp_7
 	export solutore_max_x_7
 	export solutore_min_x_7
-	
+
 	export add_GUB_con_7!
 	export add_MC_cons_7!
 	export add_Qbound_cons_7!

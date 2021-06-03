@@ -1,5 +1,27 @@
 __precompile__()
 
+#!============================================================================================
+#!    QPL - A computational study on QP problems with general linear constraints
+#!    Copyright (C) 2021  G.Liuzzi, M.Locatelli, V.Piccialli
+#!
+#!    This program is free software: you can redistribute it and/or modify
+#!    it under the terms of the GNU General Public License as published by
+#!    the Free Software Foundation, either version 3 of the License, or
+#!    (at your option) any later version.
+#!
+#!    This program is distributed in the hope that it will be useful,
+#!    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#!    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#!    GNU General Public License for more details.
+#!
+#!    You should have received a copy of the GNU General Public License
+#!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#!
+#!    G. Liuzzi, M. Locatelli, V. Piccialli. A computational study on QP problems
+#!    with general linearconstraints. Submitted to Optimization Letters (2021)
+#!
+#!============================================================================================
+
 module partools_form10
 	using Distributed
 	using JuMP
@@ -8,7 +30,7 @@ module partools_form10
 	#export CPXbuild_model
 	export CPXsolutore_max_z_10
 	export CPXsolutore_min_z_10
-	
+
 	export set_matrices_10
 	export clear_matrices_10
 	export set_lp_10
@@ -73,7 +95,7 @@ module partools_form10
 		beq  = 0
 		vmap = 0
 
-	end 
+	end
 
 	function clear_lp_10(i)
 		global lpmax
@@ -149,20 +171,20 @@ module partools_form10
 		lp = Model(CPLEX.Optimizer)
 		set_optimizer_attribute(lp, "CPX_PARAM_SCRIND", CPX_OFF)
 		set_optimizer_attribute(lp,"CPX_PARAM_BARQCPEPCOMP", 1.e-6)
-		@variable(lp, lowx[i] <= x[i = 1:n] <= upx[i]) 
-		@variable(lp, lowz[i] <= z[i = 1:p] <= upz[i]) 
-		@variable(lp,            g[i = 1:p] ) #>= 0.0) 
+		@variable(lp, lowx[i] <= x[i = 1:n] <= upx[i])
+		@variable(lp, lowz[i] <= z[i = 1:p] <= upz[i])
+		@variable(lp,            g[i = 1:p] ) #>= 0.0)
 		@constraint(lp, stdcon[j=1:p], sum( Un[i,j]*x[i] for i=1:n ) == z[j] )
 		@constraint(lp, lineq[j=1:m], sum( A[j,i]*x[i] for i=1:n ) <= b[j] )
 		@constraint(lp, leq[j=1:meq], sum( Aeq[j,i]*x[i] for i=1:n ) == beq[j] )
-		@constraint(lp, GUB_con, sum(c[i]*x[i] for i=1:n) + 0.5*sum(Dn[i]*g[i] for i=1:p) 
+		@constraint(lp, GUB_con, sum(c[i]*x[i] for i=1:n) + 0.5*sum(Dn[i]*g[i] for i=1:p)
 			+ 0.5*sum(x[i]*x[j]*Qpos[i,j] for i=1:n, j=1:n) <= upperboundmod)
 		@constraint(lp, MC[i=1:p], -z[i]*(lowz[i]+upz[i]) + g[i] <= -lowz[i]*upz[i])
 
 		#print(lp)
 		#println("cpxbuild_model, hit return to continue")
 		#readline()
-		
+
 		return lp
 	end
 

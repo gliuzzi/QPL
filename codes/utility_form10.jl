@@ -1,5 +1,27 @@
 __precompile__()
 
+#!============================================================================================
+#!    QPL - A computational study on QP problems with general linear constraints
+#!    Copyright (C) 2021  G.Liuzzi, M.Locatelli, V.Piccialli
+#!
+#!    This program is free software: you can redistribute it and/or modify
+#!    it under the terms of the GNU General Public License as published by
+#!    the Free Software Foundation, either version 3 of the License, or
+#!    (at your option) any later version.
+#!
+#!    This program is distributed in the hope that it will be useful,
+#!    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#!    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#!    GNU General Public License for more details.
+#!
+#!    You should have received a copy of the GNU General Public License
+#!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#!
+#!    G. Liuzzi, M. Locatelli, V. Piccialli. A computational study on QP problems
+#!    with general linearconstraints. Submitted to Optimization Letters (2021)
+#!
+#!============================================================================================
+
 module utility_form10
 	using Distributed
 	using BB_form10
@@ -30,19 +52,14 @@ module utility_form10
 		#	management of lp's at B&B nodes
 		# 	policy for management of list of open problems;
 		#	when the LB for an open problem is computed.
-		#	rebuild can take values in {true, false}
 		#	policy can take values in {:lifo, :fifo, :sort}
 		#	whenlb can take values in {:before, :after}
 		#####################################################
-		# rebuild  : tells whether LP problems at the B&B tree nodes must be recomputed
-		#	     from scratch every time an lb must be computed
 		# policy   : defines how the queue is managed. Allowed values are {:lifo, :sort}
 		#	     :sort means best-bound visit of B&B tree
 		#  		     :lifo means depth-first visit of B&B tree
 		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
 		#####################################################
-
-		rebuild  = false
 		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
@@ -62,7 +79,6 @@ module utility_form10
 		prob         = BB_form10.BB_10()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.rebuild = rebuild
 		prob.policy  = policy
 		prob.branch  = branch
 
@@ -165,7 +181,6 @@ module utility_form10
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "  node LP's rebuild? ",prob.rebuild)
 		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
@@ -226,7 +241,7 @@ module utility_form10
 				println("feasibility: ",feas)
 			end
 			lp = 0
-			
+
 			e = elem_bb_10(n,p)
 			e.UB = prob.GUB
 			e.xUB= prob.xUB
@@ -312,7 +327,7 @@ module utility_form10
 
 			pmap(garbage_collection, [k for k in 1:nprocs()])
 			GC.gc()
-			
+
 			solved = false
 			error  = false
 			return rootgap_time, prob.GAP, prob, LBs, solved, error
@@ -398,7 +413,6 @@ module utility_form10
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "  node LP's rebuild? ",prob.rebuild)
 		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
@@ -575,19 +589,14 @@ module utility_form10
 		#	management of lp's at B&B nodes
 		# 	policy for management of list of open problems;
 		#	when the LB for an open problem is computed.
-		#	rebuild can take values in {true, false}
 		#	policy can take values in {:lifo, :fifo, :sort}
 		#	whenlb can take values in {:before, :after}
 		#####################################################
-		# rebuild  : tells whether LP problems at the B&B tree nodes must be recomputed
-		#	     from scratch every time an lb must be computed
 		# policy   : defines how the queue is managed. Allowed values are {:lifo, :sort}
 		#	     :sort means best-bound visit of B&B tree
 		#  		     :lifo means depth-first visit of B&B tree
 		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
 		#####################################################
-
-		rebuild  = false
 		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
@@ -607,7 +616,6 @@ module utility_form10
 		prob         = BB_form10.BB_10()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.rebuild = rebuild
 		prob.policy  = policy
 		prob.branch  = branch
 
@@ -718,7 +726,6 @@ module utility_form10
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "  node LP's rebuild? ",prob.rebuild)
 		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
@@ -779,7 +786,7 @@ module utility_form10
 				println("feasibility: ",feas)
 			end
 			lp = 0
-			
+
 			e = elem_bb_10(n,p)
 			e.UB = prob.GUB
 			e.xUB= prob.xUB
@@ -976,7 +983,7 @@ module utility_form10
 			######## SET DATA FOR PARALLEL PROCESSING ###########
 			pmap(clear_matrices_10, [i for i in 1:nprocs()])
 			######## SET DATA FOR PARALLEL PROCESSING END #######
-			
+
 			x = prob.xUB
 			println(x)
 			println("funzione obiettivo: ",0.5*(x'*Q*x) + (c'*x)[1] + T[1])
