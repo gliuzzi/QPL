@@ -1,9 +1,8 @@
 __precompile__()
 
 #!============================================================================================
-#!    SC-NEP - A new branch and bound algorithm for computing mixed strategy equilibria
-#!             in the presence of switching costs
-#!    Copyright (C) 2020  G.Liuzzi, M.Locatelli, V.Piccialli, S.Rass
+#!    QPL - A computational study on QP problems with general linear constraints
+#!    Copyright (C) 2021  G.Liuzzi, M.Locatelli, V.Piccialli
 #!
 #!    This program is free software: you can redistribute it and/or modify
 #!    it under the terms of the GNU General Public License as published by
@@ -18,9 +17,8 @@ __precompile__()
 #!    You should have received a copy of the GNU General Public License
 #!    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #!
-#!    G. Liuzzi, M. Locatelli, V. Piccialli, S.Rass. Computing mixed strategies equilibria
-#!    in presence of switching costs by the solution of nonconvex QP problems
-#!    arXiv:2002.12599 [math.OC] URL:https://arxiv.org/abs/2002.12599  (2020)
+#!    G. Liuzzi, M. Locatelli, V. Piccialli. A computational study on QP problems
+#!    with general linearconstraints. Submitted to Optimization Letters (2021)
 #!
 #!============================================================================================
 
@@ -52,18 +50,21 @@ module BB_form10
 	# an object of type "elem_bb_10" is a container defined by
 	#	LB = a  lower bound
 	#	UB = an upper bound
-	#   x = minimum point of the convex underestimator
-	#       relative to the region defined by the unitary
-	#       simplex plus constraints defined by "status"
-	#   status = is a n-dimensional vector with -1|0|1 elements.
-	# 		element[i] = -1 means x[i] not yet considered
-	# 		element[i] =  0 means x[i] = 0 in the branch tree
-	# 		element[i] = +1 means x[i] > 0 in the branch tree
+	#   x = minimum point corresponding to the LB
+	#   z = minimum point corresponding to the LB
+	#   g = minimum point corresponding to the LB
+	#   index = index of x-variable onto which to branch
+	#   xmin = this should be equal to LB
+	#   xmax = this should be equal to UB
+	#   zmin = lower bound on the z
+	#   zmax = upper bound on the z
+	#   xUB
+	#   level = level in the B&B tree
 	#####################################################
 	mutable struct elem_bb_10
 		LB::Float64
 		UB::Float64
-		x::Array{Float64}             #x variables associated with LB (x + v)
+		x::Array{Float64}
 		z::Array{Float64}
 		g::Array{Float64}
 		index::Int
@@ -71,8 +72,8 @@ module BB_form10
 		xmax::Array{Float64}
 		zmin::Array{Float64}
 		zmax::Array{Float64}
-		xUB::Array{Float64}				#point associated with UB
-		level::Int				#level of node in the B&B tree
+		xUB::Array{Float64}
+		level::Int
 
 		function elem_bb_10(n,p)
 			instance       = new()
@@ -155,34 +156,35 @@ module BB_form10
 		# object implementing Branch&Bound based on
 		# KKT conditions
 		#####################################################
-		n::Int64											# number of original variables
-		nvar::Int64											# number of variables in LP/MILP
-		m::Int64											# number of ineq.constraints
-		meq::Int64											# number of eq.constraints
-		Q::Matrix                           				# hessian of the objective function
-		Qpos::Matrix
-		Dn::Array{Float64}
-		Un::Matrix
-		c::Array{Float64}									# linear term of the objective function
-		T::Array{Float64}									# constant term of the objective function
-		A::Matrix                           				# Matrix of the ineq. constraints
-		Aeq::Matrix                           				# Matrix of the eq. constraints
-		b::Array{Float64}                           		# RHS of the ineq. constraints
-		beq::Array{Float64}                           		# RHS of the eq. constraints
-		nnodes::Int64										# number of open problems
-		totnodes::Int64										# total number of generated subproblems
-		GUB::Float64										# global upper bound i.e. estimate of the optimal solution
-		GLB::Float64										# global lower bound i.e. worst lower bound among open nodes
-		xUB::Array{Float64}									# point corresponding to the GUB value
-		GAP::Float64										# optimality gap
-		numlp::Int64										# number of LP's solved
-		nummilp::Int64										# number of MILP's solved
-		rebuild::Bool										# tells whether LP problems at the B&B tree nodes must be recomputed
-															# from scratch every time an lb must be computed
-		branch::Symbol										# kind of branch strategy. Values are {:binary, :nary}
-		policy::Symbol										# how the queue is managed. Values are {:lifo, :sort}
-		whenlb::Symbol										# when LB of node is computed, i.e. before or after node subdivision.
-															# Possible values are {:before, :after}
+		n::Int64				# number of original variables
+		nvar::Int64				# number of variables in LP/MILP
+		m::Int64				# number of ineq.constraints
+		meq::Int64				# number of eq.constraints
+		Q::Matrix               # hessian of the objective function
+		Qpos::Matrix			# hessian of the p.s.d part of the obj. function
+		Dn::Array{Float64}		# diagonal of the s.v.d. of Q
+		Un::Matrix				# matrix of the eigenvectors corresponding to
+								# negative eigenvalues
+		c::Array{Float64}		# linear term of the objective function
+		T::Array{Float64}		# constant term of the objective function
+		A::Matrix               # Matrix of the ineq. constraints
+		Aeq::Matrix             # Matrix of the eq. constraints
+		b::Array{Float64}       # RHS of the ineq. constraints
+		beq::Array{Float64}     # RHS of the eq. constraints
+		nnodes::Int64			# number of open problems
+		totnodes::Int64			# total number of generated subproblems
+		GUB::Float64			# global upper bound i.e. estimate of the optimal solution
+		GLB::Float64			# global lower bound i.e. worst lower bound among open nodes
+		xUB::Array{Float64}		# point corresponding to the GUB value
+		GAP::Float64			# optimality gap
+		numlp::Int64			# number of LP's solved
+		nummilp::Int64			# number of MILP's solved
+		rebuild::Bool			# tells whether LP problems at the B&B tree nodes must be recomputed
+								# from scratch every time an lb must be computed
+		branch::Symbol			# kind of branch strategy. Values are {:binary, :nary}
+		policy::Symbol			# how the queue is managed. Values are {:lifo, :sort}
+		whenlb::Symbol			# when LB of node is computed, i.e. before or after node subdivision.
+								# Possible values are {:before, :after}
 		#####################################################
 		# Array of open (sub)problems
 		#####################################################
@@ -192,11 +194,11 @@ module BB_form10
 		function BB_10()
 			instance = new()
 			instance.open_probs = Array{elem_bb_10}(undef,0)
-			instance.nnodes = 0						# number of open problems
-			instance.totnodes = 0					# total number of generated subproblems/B&B_nodes
-			instance.n = -1							# number of variables
-			instance.m = -1							# number of variables
-			instance.meq = -1							# number of variables
+			instance.nnodes = 0
+			instance.totnodes = 0
+			instance.n = -1
+			instance.m = -1
+			instance.meq = -1
 			instance.Q = Array{Float64}(undef,0,0)
 			instance.Qpos = Array{Float64}(undef,0,0)
 			instance.Un = Array{Float64}(undef,0,0)
@@ -207,10 +209,10 @@ module BB_form10
 			instance.Aeq = Array{Float64}(undef,0,0)
 			instance.b = Array{Float64}(undef,0)
 			instance.beq = Array{Float64}(undef,0)
-			instance.GUB = +Inf						# Global Upper Bound
-			instance.GLB = -Inf						# Global Lower Bound
-			instance.xUB = Array{Float64}(undef,0)		# Point corresponding to GUB value
-			instance.GAP = +Inf						# Optimality Gap (GAP = GUB - best_lower_bound)
+			instance.GUB = +Inf
+			instance.GLB = -Inf
+			instance.xUB = Array{Float64}(undef,0)
+			instance.GAP = +Inf
 			instance.rebuild = false
 			instance.policy = :lifo
 			instance.whenlb = :after
