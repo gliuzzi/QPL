@@ -168,8 +168,6 @@ module BB_form2
 		GAP::Float64			# optimality gap
 		numlp::Int64			# number of LP's solved
 		nummilp::Int64			# number of MILP's solved
-		rebuild::Bool			# tells whether LP problems at the B&B tree nodes must be recomputed
-								# from scratch every time an lb must be computed
 		branch::Symbol			# kind of branch strategy. Values are {:binary, :nary}
 		policy::Symbol			# how the queue is managed. Values are {:lifo, :sort}
 		whenlb::Symbol			# when LB of node is computed, i.e. before or after node subdivision.
@@ -198,7 +196,6 @@ module BB_form2
 			instance.GLB = -Inf
 			instance.xUB = Array{Float64}(undef,0)
 			instance.GAP = +Inf
-			instance.rebuild = false
 			instance.policy = :lifo
 			instance.whenlb = :after
 			instance.branch = :binary

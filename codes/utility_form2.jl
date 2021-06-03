@@ -22,7 +22,6 @@ module utility_form2
 					 time_limit)
 		iprint = 0
 
-		rebuild  = false
 		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
@@ -42,7 +41,6 @@ module utility_form2
 		prob         = BB_form2.BB_2()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.rebuild = rebuild
 		prob.policy  = policy
 		prob.branch  = branch
 
@@ -295,7 +293,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "  node LP's rebuild? ",prob.rebuild)
 		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
@@ -470,19 +467,14 @@ module utility_form2
 		#	management of lp's at B&B nodes
 		# 	policy for management of list of open problems;
 		#	when the LB for an open problem is computed.
-		#	rebuild can take values in {true, false}
 		#	policy can take values in {:lifo, :fifo, :sort}
 		#	whenlb can take values in {:before, :after}
 		#####################################################
-		# rebuild  : tells whether LP problems at the B&B tree nodes must be recomputed
-		#	     from scratch every time an lb must be computed
 		# policy   : defines how the queue is managed. Allowed values are {:lifo, :sort}
 		#	     :sort means best-bound visit of B&B tree
 		#  		     :lifo means depth-first visit of B&B tree
 		# branch   : kind of branch strategy. Allowed values are {:binary, :nary}
 		#####################################################
-
-		rebuild  = false
 		policy   = :sort
 		######################################################
 		# NOTE: at the moment branch MUST be :binary
@@ -502,7 +494,6 @@ module utility_form2
 		prob         = BB_form2.BB_2()
 		LBs          = Array{Float64}(undef,0)
 
-		prob.rebuild = rebuild
 		prob.policy  = policy
 		prob.branch  = branch
 
@@ -586,7 +577,6 @@ module utility_form2
 		fid_tim = open("tim_stat.txt","w")
 		fid_bab = open("bab_stat.txt","w")
 
-		println(fid_GUB, "  node LP's rebuild? ",prob.rebuild)
 		println(fid_GUB, "   BB queue policy = ",prob.policy)
 		println(fid_GUB, "            whenlb = ",prob.whenlb)
 		println(fid_GUB, "branching strategy = ",prob.branch,"\n")
@@ -1225,7 +1215,7 @@ module utility_form2
 			end
 			if ((lowerb - lowold) <= max(0.5*tol,0.01*(GUB-lowerb)))
 				break
-			end	
+			end
 			break
 		end
 		solvetime = time()-start_time
