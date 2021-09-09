@@ -62,13 +62,10 @@ The following figures show comparison of our B&T(Mix) method with state of the a
 # Publication
 [1] G.Liuzzi, M.Locatelli, V.Piccialli "A computational study on QP problems with general linear constraints". Submitted to Optimization Letters (2021)
 
-##### AUTORI: G. Liuzzi<sup>1</sup>, M. Locatelli<sup>2</sup>, V. Piccialli<sup>3</sup>
+##### AUTORI: G. Liuzzi<sup>1</sup>, M. Locatelli<sup>2</sup>, V. Piccialli<sup>1</sup>
 
- <sup>1</sup> Department of Computer, Control and Management Engineering, "Sapienza" University of Rome (giampaolo.liuzzi@uniroma1.it)
+ <sup>1</sup> Department of Computer, Control and Management Engineering, "Sapienza" University of Rome (giampaolo.liuzzi@uniroma1.it, veronica.piccialli@uniroma1.it)
 
  <sup>2</sup> Department of Engineering and Architecture, University of Parma (marco.locatelli@unipr.it)
-
- <sup>3</sup> Department of Civil Engineering and Computer Science Engineering, University of Rome "Tor Vergata" (veronica.piccialli@uniroma2.it)
-
 
 Copyright 2021
