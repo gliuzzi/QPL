@@ -1,5 +1,5 @@
 # QPL
- Repository of the B&B algorithm to solve  Nonconvex Quadratic problems with general linear constraints. N.B. the codes uses the external solvers <b>CPLEX</b>, <b>Gurobi</b> and <b>Ipopt</b> plus the <b>JuMP</b> package. The code has been tested with the following versions of the above solvers:
+ Repository of the B&B algorithm to solve  Nonconvex Quadratic problems with general linear constraints. N.B. the code uses the external solvers <b>CPLEX</b>, <b>Gurobi</b> and <b>Ipopt</b> plus the <b>JuMP</b> package. The code has been tested with the following versions of the above solvers:
  - CPLEX v. 12.10
  - Gurobi v. 9.1.1
  - Ipopt v. 0.6.4
