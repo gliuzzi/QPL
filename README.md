@@ -38,10 +38,29 @@ julia> include("main1.jl")
 ### Folders description
  1. randqp - this is were random QP instances are stored. Problems are provided as .mat Matlab&reg; files
  2. codes - this is were the codes are stored
- 3. test - this is were scripts to reproduce the results of the paper are stored
+ 3. results - this is were results related to the OPTL paper [1] are stored
+
+### Comparison with state of the art solvers
+The following figures show comparison of our B&T(Mix) method with state of the art solvers on problems in the randqp folder.
+
+![Fraction of problems solved (y-axis) versus computing time (x-axis) for the different tested solvers](CompareSolvers.png "Problems with n=20")
+*Fraction of problems with n=20,30,40,50 solved (y-axis) versus computing time (x-axis) for the different tested solvers.*
+
+![Fraction of problems (n=20) solved (y-axis) versus computing time (x-axis) for the different tested solvers](CompareSolvers_n20.png "Problems with n=20")
+*Fraction of problems with n=20 solved (y-axis) versus computing time (x-axis) for the different tested solvers.*
+
+![Fraction of problems (n=30) solved (y-axis) versus computing time (x-axis) for the different tested solvers](CompareSolvers_n30.png "Problems with n=20")
+*Fraction of problems with n=30 solved (y-axis) versus computing time (x-axis) for the different tested solvers.*
+
+![Fraction of problems (n=40) solved (y-axis) versus computing time (x-axis) for the different tested solvers](CompareSolvers_n40.png "Problems with n=20")
+*Fraction of problems with n=40 solved (y-axis) versus computing time (x-axis) for the different tested solvers.*
+
+![Fraction of problems (n=50) solved (y-axis) versus computing time (x-axis) for the different tested solvers](CompareSolvers_n50.png "Problems with n=20")
+*Fraction of problems with n=50 solved (y-axis) versus computing time (x-axis) for the different tested solvers.*
+
 
 # Publication
-G.Liuzzi, M.Locatelli, V.Piccialli "A computational study on QP problems with general linear constraints". Submitted to Optimization Letters (2021)
+[1] G.Liuzzi, M.Locatelli, V.Piccialli "A computational study on QP problems with general linear constraints". Submitted to Optimization Letters (2021)
 
 ##### AUTORI: G. Liuzzi<sup>1</sup>, M. Locatelli<sup>2</sup>, V. Piccialli<sup>3</sup>
 
