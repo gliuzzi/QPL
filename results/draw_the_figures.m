@@ -2,12 +2,12 @@ clear all
 close all
 clc
 
-load('WKS_RESULTS1.mat')
+load('WKS_RESULTS.mat')
 colormap parula
 
 
 %%%%%%%%%%%%%% dim. 20+30+40+50
-figure('Position',[0,0,1000,1000]);
+hf = figure('Position',[0,0,1000,1000]);
 stairs(sort(BEST2_10),[1:64]/64,'s-','Linewidth',1.2,'Markersize',10)
 hold on
 stairs(sort(QIP),[1:64]/64,'+-','Linewidth',1.2,'Markersize',10)
@@ -17,7 +17,9 @@ stairs(sort(CPLEX),[1:64]/64,'x-','Linewidth',1.2,'Markersize',10)
 xlim([0,30])
 xlabel('Time (in seconds)')
 ylabel('Fraction of problems solved')
+title('Problems with n=20,30,40,50')
 legend('B&T(Mix)','QuadprogIP','BARON','GUROBI','CPLEX','Location','southeast')
+saveas(hf,['CompareSolvers.png']);
 
 %%%%%%%%%%%%%% dim. 20
 hf = figure('Position',[0,0,1000,1000]);
